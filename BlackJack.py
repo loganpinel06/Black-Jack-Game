@@ -76,25 +76,16 @@ def dealer_hit(dealerhand, dealertotal, bet):
     global balance
     #dealer can only hit if hand is less that 17 total
     while dealertotal < 17:
+        #get the new card
         new_card = int(random.choice(list_of_cards))
+        #add the card to the dealers hand
         dealerhand.append(new_card)
         print("The dealer draws.")
+        #print the dealers hand
         print(*dealerhand)
+        #update the dealers total
         dealertotal += new_card
         print(f"The dealer is now at {dealertotal}")
-        #if the dealer busts player wins
-        if dealertotal > 21:
-            balance += bet * 2
-            print("The dealer busted. \nYou win!")
-            print("You won $" + str(bet * 2))
-            print("Balance: {}".format(balance))
-            break
-        #if the dealer has 21 player loses
-        elif dealertotal == 21:
-            print("Dealer Wins.")
-            print("You lost $" + str(bet))
-            print("Balance: {}".format(balance))
-            break
     #return the dealers total so we can update it for comparison later
     return dealertotal
 
@@ -118,12 +109,14 @@ def hit_or_stand(hand, total, dealerhand, dealertotal, bet):
             elif total > 21:
                 print("You busted.")
                 print("You lost $" + str(bet))
+                break
             #if player has 21
             elif total == 21:
                 balance += bet * 2
                 print("You win!")
                 print("You won $" + str(bet * 2))
                 print("Balance: {}".format(balance))
+                break
             #break out of loop
             break
         elif decision == "Stand":
@@ -145,9 +138,11 @@ def hit_or_stand(hand, total, dealerhand, dealertotal, bet):
             elif newdealertotal == total:
                 balance += bet
                 print("Push")
-            #if the dealer busted update the players balance
-            elif newdealertotal > 21:
+            #if the dealer busted or has 21 update the players balance
+            elif newdealertotal >= 21:
                 balance += bet * 2
+                print("You won $" + str(bet * 2))
+                print("Balance: {}".format(balance))
             break
         else:
             print("Please type \"Hit\" or \"Stand\"")
